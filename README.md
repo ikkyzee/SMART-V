@@ -34,9 +34,10 @@
 ---
 
 ## 📖 Deskripsi Proyek
-**SMART-V** dikembangkan untuk mengatasi kerentanan sistem keamanan kendaraan konvensional (seperti kunci stang mekanis) yang mudah dibobol. Proyek ini memindahkan kendali keamanan dari perangkat fisik murni ke dalam ekosistem awan (*Cloud/IoT*). 
+**SMART-V (Sistem Monitoring Anti-Maling Real Time Vehicle)**
+Adalah sistem keamanan kendaraan cerdas berbasis Internet of Things (IoT) menggunakan mikrokontroler ESP32. Proyek ini memungkinkan pengguna untuk melacak koordinat kendaraan secara real-time dan mengendalikan kelistrikan mesin (Kunci Kontak Virtual) dari jarak jauh melalui antarmuka web.
 
-Sistem ini tidak hanya berfungsi sebagai pelacak (GPS Tracker), tetapi juga sebagai **Sistem Eksekutor Otonom**. Jika kendaraan digeser atau dicuri saat mode keamanan aktif, mikrokontroler akan menghitung pergeseran koordinat bumi secara mandiri dan langsung memutus aliran listrik mesin tanpa perlu menunggu persetujuan dari server.
+Keunggulan utama SMART-V terletak pada fitur **Keamanan Otonom berbasis Geofencing**. Saat kendaraan diparkir dan mode keamanan diaktifkan, sistem akan mengunci koordinat lokasi. Jika terdeteksi pergeseran ilegal (seperti didorong atau dibobol maling), mikrokontroler akan mengambil keputusan secara mandiri (Edge Computing) untuk langsung memutus kelistrikan mesin dan membunyikan alarm secara instan.
 
 ---
 
@@ -44,7 +45,7 @@ Sistem ini tidak hanya berfungsi sebagai pelacak (GPS Tracker), tetapi juga seba
 * **📍 Live Telemetry Tracking:** Pelacakan koordinat kendaraan secara *real-time* dengan visualisasi antarmuka peta interaktif menggunakan OpenStreetMap & API Leaflet.js.
 * **⚡ Kunci Kontak Virtual (Duplex):** Kontrol jarak jauh untuk menyalakan atau mematikan mesin secara manual dari *dashboard* web.
 * **🔒 Autonomous Geofencing (Anti-Maling):** Kalkulasi matematis jarak spasial (menggunakan formula *Haversine*) langsung di dalam ESP32 (*Edge Computing*). Jika kendaraan bergeser > 15 meter saat diparkir, sistem otomatis memutus kelistrikan.
-* **🔔 Real-Time Emergency Notification:** Pengiriman notifikasi peringatan darurat langsung ke perangkat pengguna (seperti *Web Push Notification* / Telegram Bot) yang akan tetap masuk meskipun *dashboard* web sedang tidak dibuka di layar utama.
+* **🔔 Real-Time Emergency Notification:** Pengiriman notifikasi peringatan darurat langsung ke perangkat pengguna yang akan tetap masuk meskipun *dashboard* web sedang tidak dibuka di layar utama.
 * **⏱️ Non-Blocking Multitasking:** Pemanfaatan **FreeRTOS** pada ESP32 untuk membagi tugas (*task*) pembacaan GPS, komunikasi jaringan MQTT, dan kontrol *hardware* agar berjalan paralel tanpa *lag/blocking*.
 * **📱 Kiosk-Mode Dashboard:** *Dashboard* web responsif satu halaman penuh (tanpa *scroll*) yang memberikan pengalaman layaknya aplikasi *native*.
 
@@ -121,7 +122,7 @@ Jika terjadi skenario pembobolan di mana pelaku mencoba mendorong motor secara d
 * **Kalkulasi Pergeseran:** Modul GPS membaca perubahan kordinat lokasi secara *real-time*. Mikrokontroler ESP32 kemudian menghitung selisih jarak antara titik awal parkir dengan lokasi terkini menggunakan formula matematis *Haversine*.
 * **Pelanggaran Radius (15 Meter):** Jika jarak pergeseran melampaui batas toleransi **15 meter**, sistem langsung mengidentifikasinya sebagai tindakan pencurian.
 * **Eksekusi Hak Prioritas (Override):** Tanpa perlu menunggu instruksi dari server web, perangkat keras (ESP32) akan secara otonom memutus aliran daya kelistrikan secara paksa (Mesin mati total) dan menyalakan *buzzer* peringatan. 
-* **Notifikasi Latar Belakang (Push Alert):** Bersamaan dengan pemutusan mesin, sistem memicu pengiriman notifikasi darurat langsung ke perangkat *(smartphone/PC)* pengguna. Peringatan ini dijamin akan tetap masuk untuk memberikan peringatan dini, meskipun *browser* web sedang tertutup atau berjalan di latar belakang.
+* **Notifikasi Latar Belakang (Push Alert):** Bersamaan dengan pemutusan mesin, sistem memicu pengiriman notifikasi darurat langsung ke perangkat pengguna. Peringatan ini dijamin akan tetap masuk untuk memberikan peringatan dini, meskipun *browser* web sedang tertutup atau berjalan di latar belakang.
 
 ---
 
@@ -140,10 +141,11 @@ Tabel berikut menunjukkan hasil validasi fungsionalitas sistem secara langsung d
 
 ## 🎯 Kesimpulan
 
-Proyek SMART-V berhasil membuktikan bahwa integrasi antara mikrokontroler ESP32, teknologi GPS, dan protokol MQTT dapat menghasilkan sistem keamanan kendaraan yang komprehensif, responsif, dan proaktif. Penggunaan arsitektur **FreeRTOS** terbukti sangat krusial dalam mengatasi masalah *blocking* pada pembacaan sensor serial satelit, sehingga komunikasi data dua arah berjalan tanpa hambatan (*zero-lag*). 
+<div align="justify">
 
-Keberhasilan penerapan algoritma **Geofencing Otonom** di dalam ESP32 (*Edge Computing*) memastikan sistem mampu mengambil keputusan kritis (memutus kelistrikan) secara seketika saat radius terlanggar. Ditambah dengan integrasi **Sistem Notifikasi Darurat** yang berjalan di latar belakang, SMART-V berevolusi dari sekadar alat pelacak pasif menjadi purwarupa sistem proteksi anti-maling aktif yang tangguh, cerdas, dan menjamin ketenangan (*peace of mind*) penggunanya kapan pun dan di mana pun.
+Proyek SMART-V secara komprehensif mendemonstrasikan kapabilitas mikrokontroler ESP32 sebagai pusat komputasi cerdas (*Edge Computer*) dalam memitigasi tindak pencurian kendaraan melalui integrasi manipulasi *Input/Output* (I/O), komunikasi serial asinkron, dan penjadwalan *multitasking*. Sebagai bentuk pencegahan pembobolan fisik, ESP32 mengambil alih otoritas kelistrikan kendaraan secara digital dengan memanipulasi sirkuit daya melalui pin GPIO yang terhubung ke aktuator *Relay Active Low*. Dalam aspek pelacakan *real-time*, sistem menunjukkan keandalan komunikasi jaringan dengan mengakuisisi data mentah NMEA dari modul satelit via protokol UART, merangkainya menjadi struktur data JSON, dan mentransmisikannya secara mulus ke *server* awan menggunakan protokol MQTT. Puncak efisiensi komputasi sistem ini terletak pada implementasi *FreeRTOS* yang mendistribusikan beban kerja tersebut ke dalam arsitektur *dual-core*, memastikan mikrokontroler terhindar dari *blocking* memori saat mengeksekusi algoritma *Geofencing* otonom berbasis kalkulasi matematis *Haversine*. Berkat manajemen sistem waktu-nyata (RTOS) ini, ESP32 mampu mendeteksi pergeseran radius 15 meter dan secara otonom memutus aliran mesin sekaligus memicu sirine dalam hitungan milidetik tanpa menunggu instruksi *server*, menjadikan SMART-V sebagai sistem proteksi proaktif yang merepresentasikan standar rekayasa sistem mikrokontroler IoT modern.
 
+</div>
 ---
 
 ## 📎 Lampiran
