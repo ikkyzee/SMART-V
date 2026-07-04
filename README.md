@@ -150,9 +150,9 @@ Proyek SMART-V secara komprehensif mendemonstrasikan kapabilitas mikrokontroler 
 
 ## 📎 Lampiran
 
-* 🎥 **Video Demo Sistem:** [Tonton Pengujian Lapangan SMART-V di YouTube](https://youtube.com/...)
-* 💼 **Profil Pengembang:** [Rizky Arya Aditya - LinkedIn](https://www.linkedin.com/in/...)
-* 💼 **Profil Pengembang:** [Bonardo Mandopa Lubis - LinkedIn](https://id.linkedin.com/in/bonardo-mandopa-ba6a3b41b)
+* 🎥 **Video Demo Sistem:** [Tonton Pengujian Lapangan SMART-V di YouTube](https://youtu.be/vvAIl8-LlZM)
+* 💼 **Profil Pengembang:** [Rizky Arya Aditya - LinkedIn](https://www.linkedin.com/posts/rizky-arya-aditya-539011381_iot-internetofthings-esp32-share-7479200760849690625-m4qE/?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAF4m6r0BVZO8x5qIA-8zaEMyDUR99ITlEtc)
+* 💼 **Profil Pengembang:** [Bonardo Mandopa Lubis - LinkedIn](https://www.linkedin.com/posts/bonardo-mandopa-ba6a3b41b_github-ikkyzeesmart-v-smart-v-adalah-share-7479201662075822080-Nrg1/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAGrDK-4Bzh2uAY-WYsj8dEFsKvSWHNrI3uM)
 
 <br>
 <p align="center">
