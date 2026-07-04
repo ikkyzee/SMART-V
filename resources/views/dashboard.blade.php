@@ -117,6 +117,16 @@
     }).addTo(map);
 
     let vehicleMarker = null;
+    let alarmNotified = false; 
+    vavshshh
+
+    //Meminta izin ke browser untuk menampilkan notifikasi saat web pertama dibuka
+    if ("Notification" in window) {
+        if (Notification.permission !== "granted" && Notification.permission !== "denied") {
+            Notification.requestPermission();
+        }
+    }
+
     setTimeout(() => { map.invalidateSize(); }, 500);
 
     const topicSub = "smartv_kel8/kendaraan/status";     
@@ -151,18 +161,35 @@
                     badge.innerText = "⚠️ MESIN DIPAKSA MATI";
                     badge.className = "badge bg-light text-danger";
                     cardStatus.className = "card h-100 shadow-sm status-card bg-danger-custom";
+
+                    //Logika memunculkan Push Notification
+                    if (!alarmNotified && Notification.permission === "granted") {
+                        const notif = new Notification("🚨 DARURAT SMART-V!", {
+                            body: "Peringatan! Kendaraan bergeser di luar batas aman. Mesin telah dimatikan secara otonom.",
+                            requireInteraction: true // Notifikasi tidak hilang otomatis sampai diklik/ditutup
+                        });
+                        
+                        // Jika notifikasi diklik, otomatis pindah ke tab web SMART-V
+                        notif.onclick = function() {
+                            window.focus();
+                        };
+                        
+                        alarmNotified = true; 
+                    }
                 } 
                 else if (data.keamanan === "AKTIF" && data.alarm === "AMAN") {
                     txtAlarm.innerText = "PARKIR AMAN";
                     badge.innerText = "🔒 TERKUNCI";
                     badge.className = "badge bg-light text-success";
                     cardStatus.className = "card h-100 shadow-sm status-card bg-success-custom";
+                    alarmNotified = false; 
                 }
                 else {
                     txtAlarm.innerText = "KONTROL MANUAL";
                     badge.innerText = "✔️ BEBAS";
                     badge.className = "badge bg-dark";
                     cardStatus.className = "card h-100 shadow-sm status-card bg-white";
+                    alarmNotified = false; 
                 }
 
                 // Update Peta
